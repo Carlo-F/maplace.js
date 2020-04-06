@@ -9,7 +9,7 @@
 * @version  @VERSION
 * @preserve
 */
-
+var markerCluster = null;
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['jquery'], factory);
@@ -148,6 +148,7 @@
         this.circles = [];
         this.oMap = false;
         this.view_all_key = 'all';
+        this.view_clustered = true; //clusterer
 
         this.infowindow = null;
         this.maxZIndex = 0;
@@ -1095,6 +1096,48 @@
 
         //add markers
         this.add_markers_to_objMap();
+        
+        //CF -- MarkerClusterer update
+        if(markerCluster){
+            markerCluster.clearMarkers(); //clean previous cluster
+        }
+        if(args && 'view_clustered' in args){ //check if cluster is required
+            this.view_clustered = args.view_clustered; //enable cluster
+        }
+        //check if MarkerClusterer function exist and check is clustered view is enabled
+        if (this.view_clustered && (typeof MarkerClusterer == 'function')) {
+            
+            var clusterStyles = [
+               {
+                  textColor: 'white',
+                  textSize: 18,
+                  url: '/img/icons/clusterer/original/m3.png',
+                  height: 66,
+                  width: 65
+                },
+                {
+                  textColor: 'white',
+                  textSize: 18,
+                  url: '/img/icons/clusterer/original/m4.png',
+                  height: 77,
+                  width: 78
+                },
+               {
+                  textColor: 'white',
+                  textSize: 18,
+                  url: '/img/icons/clusterer/original/m5.png',
+                  height: 89,
+                  width: 90
+                }
+              ];
+            var mcOptions = {
+                gridSize: 50,
+                styles: clusterStyles,
+                minimumClusterSize: 3,
+                maxZoom: 17
+            };
+            markerCluster = new MarkerClusterer(this.oMap, this.markers, mcOptions);
+        }
 
         //generate controls
         if ((this.ln > 1 && this.o.generate_controls) || this.o.force_generate_controls)  {
