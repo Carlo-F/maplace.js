@@ -308,21 +308,6 @@ var data = [{
 	      If <strong>true</strong>, allows google maps cluster functionality</strong>
 	    </td>
 	  </tr>
-	  <tr>
-		<td>listeners</td>
-		<td>Object</td>
-		<td>{}</td>
-		<td>Example:<br/>
-		<code>
-		listeners: {<br/>
-			click: function(map, event) {<br/>
-				map.setOptions({scrollwheel: true});<br/>
-    		}<br/>
-		}<br/>
-		</code>
-		Docs: <a href="https://developers.google.com/maps/documentation/javascript/events#UIEvents" target="_blank">Google maps Events</a>
-		</td>
-	  </tr>
 	</tbody>
 </table>
 
